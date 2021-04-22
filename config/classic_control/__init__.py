@@ -17,7 +17,7 @@ class ClassicControlConfig(BaseMuZeroConfig):
             num_simulations=50,
             batch_size=128,
             td_steps=5,
-            num_actors=32,
+            num_actors=16,
             lr_init=0.05,
             lr_decay_rate=0.01,
             lr_decay_steps=10000,

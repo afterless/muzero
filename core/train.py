@@ -359,7 +359,6 @@ def _test(config, shared_storage):
             torch.save(test_model.state_dict(), config.model_path)
 
         shared_storage.add_test_log.remote(test_score)
-        time.sleep(30)
 
 def train(config, summary_writer=None):
     storage = SharedStorage.remote(config.get_uniform_network())
@@ -368,11 +367,13 @@ def train(config, summary_writer=None):
     workers = [DataWorker.remote(rank, config, storage, replay_buffer)
                for rank in range(0, config.num_actors)]
 
-    jobs = [w.run.remote() for w in workers]
-    jobs += [_test.remote(config, storage)]
+    for w in workers:
+        w.run.remote()
+
+    workers += [_test.remote(config, storage)]
 
     _train(config, storage, replay_buffer, summary_writer)
 
-    ray.wait(jobs)
+    ray.wait(workers, len(workers))
 
     return config.get_uniform_network().set_weights(ray.get(storage.get_weights.remote()))
