@@ -46,7 +46,7 @@ def _log(config, step_count, log_data, model: Network, replay_buffer: ReplayBuff
     replay_buffer_size = ray.get(replay_buffer.size.remote())
 
     # Format logging message to saved by logging
-    _msg = '#{:<10} Loss: {:<8.3f} [Weighted Loss:{:<8.3f} Policy Loss: {:<8.3f} Value Loss: {:<8.3f} Reward Loss: {:<8.3f} ]' \
+    _msg = '#{:<10} Loss: {:<8.3f} [Weighted Loss:{:<8.3f} Policy Loss: {:<8.3f} Value Loss: {:<8.3f} Reward Loss: {:<8.3f}]' \
            'Replay Episodes Collected: {:<10d} Buffer Size: {:<10d} Lr: {:<8.3f}'
 
     _msg = _msg.format(step_count, loss, weighted_loss, policy_loss, value_loss, 
@@ -366,13 +366,15 @@ def train(config, summary_writer=None):
     replay_buffer = ReplayBuffer.remote(config, prob_alpha=config.priority_prob_alpha)
 
     workers = [DataWorker.remote(rank, config, storage, replay_buffer)
-               for rank in range(0, config.num_actors)]
+            for rank in range(0, config.num_actors)]
 
-    jobs = [w.run.remote() for w in workers]
-    jobs += [_test.remote(config, storage)]
+    for w in workers:
+        w.run.remote()
+
+    workers += [_test.remote(config, storage)]
 
     _train(config, storage, replay_buffer, summary_writer)
 
-    ray.wait(jobs)
+    ray.wait(workers, len(workers))
 
     return config.get_uniform_network().set_weights(ray.get(storage.get_weights.remote()))

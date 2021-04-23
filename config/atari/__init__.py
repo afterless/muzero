@@ -7,7 +7,7 @@ from .model import MuZeroNet
 class AtariControlConfig(BaseMuZeroConfig):
     def __init__(self):
         super(AtariControlConfig, self).__init__(
-            training_steps=20000,
+            training_steps=100,
             test_interval=100,
             test_episodes=5,
             checkpoint_interval=20,
@@ -17,13 +17,13 @@ class AtariControlConfig(BaseMuZeroConfig):
             num_simulations=50,
             batch_size=256,
             td_steps=5,
-            num_actors=32,
+            num_actors=1,
             lr_init=0.05,
             lr_decay_rate=0.01,
             lr_decay_steps=10000,
             window_size=1000,
             value_loss_coeff=1,
-            value_support=DiscreteSupport(-20, 20),
+            value_support=DiscreteSupport(-5, 5),
             reward_support=DiscreteSupport(-5, 5))
 
 
