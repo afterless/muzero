@@ -359,7 +359,6 @@ def _test(config, shared_storage):
             torch.save(test_model.state_dict(), config.model_path)
 
         shared_storage.add_test_log.remote(test_score)
-        time.sleep(30)
 
 def train(config, summary_writer=None):
     storage = SharedStorage.remote(config.get_uniform_network())
