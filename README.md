@@ -1,15 +1,8 @@
-About
------
-MuZero Implementation of PyTorch, designed to be adaptable to all environments written with the OpenAI API
+Implementation of MuZero
 
-This project is more of a learning project for me with PyTorch, and moving away from paradigms such as standard loss functions or modern practices
-
-Don't take this project more seriously, it's really just a playground
-
-Attribution
------
-Thanks to the MuZero team for providing information on creating this implementation, for further information, check out the following links:
-* [Nature Paper]()
-* [Yannic Kilcher Video]()
-* [geohot muzero attempt]()
-
+The goal for this project is to create an implementation of MuZero that meets the following characteristics:
+* Modular networks for rapid function development
+* GPU Parallelization
+* CPU Parallelization (Better Resource Consumption)
+* Live Tensorboard Updating
+* Better API to connect environments to MuZero for rapid testing
