@@ -1,10 +1,9 @@
 About
 -----
-MuZero Implementation of PyTorch, designed to be adaptable to all environments written with the OpenAI API
+A MuZero Implementation attempt in PyTorch, designed to be adaptable to all environments written with the Gym API
 
-This project is more of a learning project for me with PyTorch, and moving away from paradigms such as standard loss functions or modern practices
-
-Don't take this project more seriously, it's really just a playground
+This project is more of a learning project for me with PyTorch and learning how RL is much more different than other domains. This project does run
+but doesn't match the original paper's results nor does it run efficiently. No plans to complete this in the future, moreso an archive project
 
 Attribution
 -----
